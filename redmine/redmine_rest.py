@@ -691,7 +691,9 @@ class Redmine_WS(object):
         # If impersonation is set, add header
         if self.impersonate and self.impersonation_supported:
             request.add_header('X-Redmine-Switch-User', self.impersonate)
-
+            
+        import logging
+        logging.getLogger('redmine').log(logging.INFO, 'Sending request %s', request)
         # get the data and return XML object
         if payload:
             request.add_header('Content-Type', payload_type)
@@ -703,6 +705,8 @@ class Redmine_WS(object):
     
     def open(self, page, parms=None, payload=None, HTTPrequest=None ):
         '''Opens a page from the server with optional content.  Returns the string response.'''
+        import logging
+        logging.getLogger('redmine').log(logging.INFO, 'Sending request %s', page)
         response = self.open_raw( page, parms, payload, HTTPrequest )
         return response.read()
         
